@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Xml.Serialization;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PTAData.Entities
 {
@@ -15,10 +17,16 @@ namespace PTAData.Entities
     [Serializable]
     public class Committee
     {
+        [Key]
         public string CommitteeName { get; set; }
         public string Description { get; set; }
+
+        [ForeignKey("MemberId")]
         public List<Member> ChairPersons { get; set; }
-        public List<string> AttachedFiles { get; set; }
+        [ForeignKey("CommitteeName")]
+        public List<CommitteeFile> AttachedFiles { get; set; }
+        [ForeignKey("CommitteeName")]
+        public List<CommitteeEntry> Entries { get; set; }
 
         public Committee()
         {
@@ -100,7 +108,8 @@ namespace PTAData.Entities
         private void Initialize()
         {
             ChairPersons = new List<Member>();
-            AttachedFiles = new List<string>();
+            AttachedFiles = new List<CommitteeFile>();
+            Entries = new List<CommitteeEntry>();
         }
     }
 }

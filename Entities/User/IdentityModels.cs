@@ -12,9 +12,9 @@ namespace PTAData.Entities
     {
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationUserContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
+        public ApplicationUserContext()
             : base("DefaultConnection")
         {
         }
@@ -24,7 +24,7 @@ namespace PTAData.Entities
     public class UserManager : UserManager<ApplicationUser>
     {
         public UserManager()
-            : base(new UserStore<ApplicationUser>(new ApplicationDbContext()))
+            : base(new UserStore<ApplicationUser>(new ApplicationUserContext()))
         {
         }
     }
@@ -32,7 +32,7 @@ namespace PTAData.Entities
     public class RoleManager : RoleManager<IdentityRole>
     {
         public RoleManager()
-            : base(new RoleStore<IdentityRole>(new ApplicationDbContext()))
+            : base(new RoleStore<IdentityRole>(new ApplicationUserContext()))
         {
         }
     }

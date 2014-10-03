@@ -65,7 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Committee\CommitteeContext.cs" />
+    <Compile Include="Entities\Committee\CommitteeFiles.cs" />
     <Compile Include="Entities\Committee\Committee.cs" />
+    <Compile Include="Entities\Committee\CommitteeEntry.cs" />
     <Compile Include="Entities\Common\Convert.cs" />
     <Compile Include="Entities\Common\PersonName.cs" />
     <Compile Include="Entities\Membership\Address.cs" />
@@ -75,13 +78,39 @@
     <Compile Include="Entities\School\Grade.cs" />
     <Compile Include="Entities\School\Teacher.cs" />
     <Compile Include="Entities\User\IdentityModels.cs" />
+    <Compile Include="Migrations\ApplicationUserContextMigrations\201409271805156_Initial.cs" />
+    <Compile Include="Migrations\ApplicationUserContextMigrations\201409271805156_Initial.Designer.cs">
+      <DependentUpon>201409271805156_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationUserContextMigrations\Configuration.cs" />
+    <Compile Include="Migrations\CommitteeContextMigrations\Configuration.cs" />
+    <Compile Include="Migrations\MembershipContextMigrations\201409271726381_Initial.cs" />
+    <Compile Include="Migrations\MembershipContextMigrations\201409271726381_Initial.Designer.cs">
+      <DependentUpon>201409271726381_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MembershipContextMigrations\201409271737508_AddMembershipType.cs" />
+    <Compile Include="Migrations\MembershipContextMigrations\201409271737508_AddMembershipType.Designer.cs">
+      <DependentUpon>201409271737508_AddMembershipType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MembershipContextMigrations\Configuration.cs" />
+    <Compile Include="NVPAPICaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\ApplicationUserContextMigrations\201409271805156_Initial.resx">
+      <DependentUpon>201409271805156_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MembershipContextMigrations\201409271726381_Initial.resx">
+      <DependentUpon>201409271726381_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\MembershipContextMigrations\201409271737508_AddMembershipType.resx">
+      <DependentUpon>201409271737508_AddMembershipType.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

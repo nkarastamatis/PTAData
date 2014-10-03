@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PTAData.Entities
 {
@@ -20,9 +22,14 @@ namespace PTAData.Entities
 
         public string MembershipId { get; set; }
         public MembershipType Type { get; set; }
-        public ICollection<Member> Members { get; set; }
-        public ICollection<Student> Students { get; set; }
         public Address Address { get; set; }
+
+        [ForeignKey("MemberId")]
+        public ICollection<Member> Members { get; set; }
+        
+        [ForeignKey("StudentId")]
+        public ICollection<Student> Students { get; set; }
+        
 
         public Membership()
         {
@@ -34,14 +41,14 @@ namespace PTAData.Entities
         }
     }
 
-    public class Memberships : DbContext
+    public class MembershipContext : DbContext
     {
-        public Memberships()
+        public MembershipContext()
             : base("DefaultConnection")
         { 
         }
 
-        public DbSet<Membership> MembershipRecords { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
