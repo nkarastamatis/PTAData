@@ -33,31 +33,6 @@ namespace PTAData.Entities
             Initialize();
         }
 
-        public Member(object obj)
-        {
-            var valuesByProp = obj as Dictionary<string, object>;
-            if (valuesByProp == null)
-            {
-                Initialize();
-                return;
-            }
-
-            Type type = typeof(Member);
-            foreach (var pair in valuesByProp)
-            {
-                var property = type.GetProperty(pair.Key);
-                if (property != null)
-                {
-                    object value = null;
-                    if (property.PropertyType == typeof(string))
-                        value = pair.Value;
-                    else
-                        value = Activator.CreateInstance(property.PropertyType, pair.Value);
-                    property.SetValue(this, value);
-                }
-            }
-        }
-
         private void Initialize()
         {
             MemberId = Guid.NewGuid().ToString();

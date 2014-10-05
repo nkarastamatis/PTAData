@@ -21,8 +21,8 @@ namespace PTAData.Entities
         public string CommitteeName { get; set; }
         public string Description { get; set; }
 
-        [ForeignKey("MemberId")]
-        public List<Member> ChairPersons { get; set; }
+        [ForeignKey("CommitteeName")]
+        public List<ChairPerson> ChairPersons { get; set; }
         [ForeignKey("CommitteeName")]
         public List<CommitteeFile> AttachedFiles { get; set; }
         [ForeignKey("CommitteeName")]
@@ -34,38 +34,6 @@ namespace PTAData.Entities
             // TODO: Add constructor logic here
             //
             Initialize();
-        }
-
-        public Committee(object obj)
-        {
-            var valuesByProp = obj as Dictionary<string, object>;
-            if (valuesByProp == null)
-            {
-                Initialize();
-                return;
-            }
-
-            Type type = typeof(Committee);
-            foreach (var pair in valuesByProp)
-            {
-                var property = type.GetProperty(pair.Key);
-                if (property != null)
-                {
-                    object value = null;
-                    if (property.PropertyType == typeof(string))
-                        value = pair.Value;
-                    else if (pair.Value is Array)
-                    {
-                        foreach (var item in (pair.Value as object[]))
-                        {
-                            value = Activator.CreateInstance(property.PropertyType.GetGenericArguments()[0], item);
-                        }
-                    }
-                    else
-                        value = Activator.CreateInstance(property.PropertyType, pair.Value);
-                    property.SetValue(this, value);
-                }
-            }
         }
 
         static public Committee Load(string name)
@@ -107,9 +75,9 @@ namespace PTAData.Entities
 
         private void Initialize()
         {
-            ChairPersons = new List<Member>();
-            AttachedFiles = new List<CommitteeFile>();
-            Entries = new List<CommitteeEntry>();
+            //ChairPersons = new List<ChairPerson>();
+            //AttachedFiles = new List<CommitteeFile>();
+            //Entries = new List<CommitteeEntry>();
         }
     }
 }

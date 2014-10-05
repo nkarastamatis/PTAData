@@ -13,7 +13,7 @@ namespace PTAData.Migrations.CommitteeContextMigrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201410030930361_Initial"; }
+            get { return "201410041236217_Initial"; }
         }
         
         string IMigrationMetadata.Source

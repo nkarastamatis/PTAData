@@ -11,11 +11,12 @@ namespace PTAData.Migrations.CommitteeContextMigrations
                 "dbo.CommitteeEntries",
                 c => new
                     {
-                        CommitteeName = c.String(nullable: false, maxLength: 128),
+                        EntryId = c.String(nullable: false, maxLength: 128),
+                        CommitteeName = c.String(maxLength: 128),
                         EntryTitle = c.String(),
                         EntryBody = c.String(),
                     })
-                .PrimaryKey(t => t.CommitteeName)
+                .PrimaryKey(t => t.EntryId)
                 .ForeignKey("dbo.Committees", t => t.CommitteeName)
                 .Index(t => t.CommitteeName);
             
@@ -23,10 +24,10 @@ namespace PTAData.Migrations.CommitteeContextMigrations
                 "dbo.CommitteeFiles",
                 c => new
                     {
-                        CommitteeName = c.String(nullable: false, maxLength: 128),
-                        FileName = c.String(),
+                        FileName = c.String(nullable: false, maxLength: 128),
+                        CommitteeName = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => t.CommitteeName)
+                .PrimaryKey(t => t.FileName)
                 .ForeignKey("dbo.Committees", t => t.CommitteeName)
                 .Index(t => t.CommitteeName);
             
@@ -40,35 +41,34 @@ namespace PTAData.Migrations.CommitteeContextMigrations
                 .PrimaryKey(t => t.CommitteeName);
             
             CreateTable(
-                "dbo.Members",
+                "dbo.ChairPersons",
                 c => new
                     {
+                        CommitteeName = c.String(nullable: false, maxLength: 128),
                         MemberId = c.String(nullable: false, maxLength: 128),
-                        Name_First = c.String(),
-                        Name_Last = c.String(),
-                        Phone = c.String(),
-                        Email = c.String(),
-                        MembershipId = c.String(nullable: false, maxLength: 128),
                     })
-                .PrimaryKey(t => t.MemberId)
-                .ForeignKey("dbo.Memberships", t => t.MembershipId, cascadeDelete: true)
-                .ForeignKey("dbo.Committees", t => t.MemberId)
-                .Index(t => t.MemberId)
-                .Index(t => t.MembershipId);            
+                .PrimaryKey(t => new { t.CommitteeName, t.MemberId })
+                .ForeignKey("dbo.Committees", t => t.CommitteeName, cascadeDelete: true)
+                .ForeignKey("dbo.Members", t => t.MemberId, cascadeDelete: true)
+                .Index(t => t.CommitteeName)
+                .Index(t => t.MemberId);
             
+                       
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.CommitteeEntries", "CommitteeName", "dbo.Committees");
-            DropForeignKey("dbo.Members", "MemberId", "dbo.Committees");
-            DropForeignKey("dbo.Members", "MembershipId", "dbo.Memberships");
+            DropForeignKey("dbo.ChairPersons", "MemberId", "dbo.Members");
+            DropForeignKey("dbo.Students", "TeacherId", "dbo.Teachers");
+            DropForeignKey("dbo.Students", "StudentId", "dbo.Memberships");
+            DropForeignKey("dbo.ChairPersons", "CommitteeName", "dbo.Committees");
             DropForeignKey("dbo.CommitteeFiles", "CommitteeName", "dbo.Committees");
-            DropIndex("dbo.Members", new[] { "MembershipId" });
-            DropIndex("dbo.Members", new[] { "MemberId" });
+            DropIndex("dbo.ChairPersons", new[] { "MemberId" });
+            DropIndex("dbo.ChairPersons", new[] { "CommitteeName" });
             DropIndex("dbo.CommitteeFiles", new[] { "CommitteeName" });
             DropIndex("dbo.CommitteeEntries", new[] { "CommitteeName" });
-            DropTable("dbo.Members");
+            DropTable("dbo.ChairPersons");
             DropTable("dbo.Committees");
             DropTable("dbo.CommitteeFiles");
             DropTable("dbo.CommitteeEntries");
