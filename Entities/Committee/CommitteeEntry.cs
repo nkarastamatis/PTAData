@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PTAData.Entities
 {
+    [Serializable]
     public class CommitteeEntry
     {
         [Key]

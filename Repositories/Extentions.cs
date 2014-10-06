@@ -39,5 +39,7 @@ namespace PTAData.Repositories
                 dbSet.AsQueryable(),
                 (current, key) => current.Include(key));
         }
+
+        
     }
 }

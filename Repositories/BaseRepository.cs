@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.ComponentModel;
 
 namespace PTAData.Repositories
 {
@@ -48,6 +49,16 @@ namespace PTAData.Repositories
             var dbSet = property.GetValue(Context) as DbSet<TEntity>;
 
             return dbSet.IncludeAll().Cast<TEntity>().ToList();
+        }
+
+        public DbSet<TEntity> Get<TEntity>(bool bind) where TEntity : class
+        {
+            var property = typeof(TDbContext).GetProperties()
+                .FirstOrDefault(p => p.PropertyType.GenericTypeArguments[0] == typeof(TEntity));
+
+            var dbSet = property.GetValue(Context) as DbSet<TEntity>;
+
+            return dbSet;
         }
 
         public TDbContext Context
